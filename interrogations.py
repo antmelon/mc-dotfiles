@@ -230,11 +230,10 @@ class Interrogations(Screen):
             cell("Probability of Reply", Select(self.PROBABILITY_OF_REPLY, id=f"{prefix}-prob-reply")),
             cell("Code Label", Select(make_bin_select(0, 4, 3), id=f"{prefix}-code-label")),
             # Row 2
-            cell("Interrogator Code", Select(make_bin_select(0, 15, 4), id=f"{prefix}-interrogator-code")),
             cell("Protocol", Select(make_select([0,1,4,5,6]), id=f"{prefix}-protocol")),
             cell("Reply Request", Input(placeholder="Number", id=f"{prefix}-reply-request")),
             cell("Designator", Select(make_select([0,1,2,3,7]), id=f"{prefix}-designator")),
-            cell("IIS", Select(make_bin_select(0, 15, 4), id=f"{prefix}-iis")),
+            cell("IIS/IC", Select(make_bin_select(0, 15, 4), id=f"{prefix}-iis")),
             # Row 3
             cell("MBS", RadioSet(
                 RadioButton("No Comm B", value=1),
@@ -320,7 +319,7 @@ class Interrogations(Screen):
             "sis": max(0, min(31, get_widget_value("sis"))),
             "lss": get_widget_value("lss"),
             "prob_reply": get_widget_value("prob-reply"),
-            "interrogator_code": get_widget_value("interrogator-code"),
+            "interrogator_code": get_widget_value("iis"),
             "code_label": get_widget_value("code-label")
         }
         
