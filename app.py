@@ -153,10 +153,21 @@ class MCS(App):
         Args:
             message: Received message as a dictionary
         """
-        self.call_after_refresh(self._process_message_in_ui_thread, message)
+        try:
+            # Process the message in a worker to avoid blocking the UI
+            self.run_worker(
+                self._process_message_worker(message),
+                name="message_processor",
+                group="message_processing",
+                exclusive=False,
+                exit_on_error=False
+            )
+            
+        except Exception as e:
+            logger.error("Error processing message: %s", e, exc_info=True)
 
-    def _process_message_in_ui_thread(self, message: Dict) -> None:
-        """Process a received message in the UI thread."""
+    async def _process_message_worker(self, message: Dict) -> None:
+        """Process a message in a worker thread."""
         try:
             # Update main menu if it exists and can handle messages
             if self.main_menu and hasattr(self.main_menu, 'add_message'):
@@ -169,7 +180,32 @@ class MCS(App):
                 current_screen.add_message(message)
                 
         except Exception as e:
-            logger.error("Error processing message in UI: %s", e, exc_info=True)
+            logger.error("Error processing message: %s", e, exc_info=True)
+
+    def _process_message_data(self, message: Dict) -> Optional[Dict]:
+        """Process message data in background thread."""
+        try:
+            # Add any heavy processing here
+            return message  # Return processed message
+        except Exception as e:
+            logger.error("Error processing message data: %s", e, exc_info=True)
+            return None
+
+    def _update_ui_with_message(self, message: Dict) -> None:
+        """Update UI with processed message."""
+        try:
+            # Update main menu if it exists and can handle messages
+            if self.main_menu and hasattr(self.main_menu, 'add_message'):
+                self.main_menu.add_message(message)
+            
+            # Also update current screen if it's different from main menu
+            current_screen = self.screen
+            if (current_screen is not self.main_menu and 
+                    hasattr(current_screen, 'add_message')):
+                current_screen.add_message(message)
+                
+        except Exception as e:
+            logger.error("Error updating UI with message: %s", e, exc_info=True)
 
     # Actions
     

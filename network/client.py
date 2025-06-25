@@ -12,10 +12,14 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+from typing import Callable, Dict, Optional, Any
+from threading import Thread
+from queue import Queue
+
 class TCPClient:
     """TCP client that handles connection and message passing with the server."""
 
-    def __init__(self, host: str, port: int, message_callback: Callable[[Dict], None]):
+    def __init__(self, host: str, port: int, message_callback: Callable[[Dict], Any]):
         """Initialize the TCP client.
         
         Args:
@@ -38,6 +42,7 @@ class TCPClient:
         self.running = False
         self.message_queue: Queue[Dict] = Queue()
         self._buffer = ""  # Buffer for incomplete messages
+        self._message_thread: Optional[Thread] = None
         
         logger.info("TCPClient initialized for %s:%s", host, port)
 

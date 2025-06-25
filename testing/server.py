@@ -23,7 +23,7 @@ def start_test_server(host='0.0.0.0', port=9000):
                         # Echo back the message once per millisecond
                         while True:
                             conn.send(data)
-                            time.sleep(0.1)
+                            time.sleep(0.01)
                         print(f"Sent: {message}")
                     except json.JSONDecodeError:
                         print("Received invalid JSON")

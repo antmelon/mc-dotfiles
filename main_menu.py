@@ -363,14 +363,19 @@ class Menu(Screen):
             
             # Limit table size to 250 most recent messages
             if self.table.row_count > 250:
-                self.table.remove_row(0)
+                # Remove the first row using the key
+                first_row_key = next(iter(self.table.rows.keys()))
+                self.table.remove_row(first_row_key)
                 
             # Scroll to the bottom
-            if self.table.row_count > 0:
-                self.table.scroll_to(self.table.row_count - 1)
+            #if self.table.row_count > 0:
+            #    self.table.scroll_to(self.table.row_count - 1)
             
             # Queue message for saving if enabled
             self._queue_message_for_saving(message)
+            
+            # Refresh the UI
+            self.refresh()
             
             return True
             

@@ -127,7 +127,7 @@ DataTable > .datatable--cursor {
     grid-size: 2 1;
     grid-columns: 1fr 1fr;
     grid-gutter: $spacing-1 $spacing-1;
-    height: 50%;
+    height: 35%;
     margin-bottom: $spacing-1;
 }
 
@@ -151,7 +151,7 @@ Checkbox {
 }
 
 .power-output-container {
-    height: 35%;
+    height: 20%;
     display: block;
     margin: $spacing-1 0;
 }
@@ -170,6 +170,44 @@ Checkbox {
     margin-left: $spacing-1;
 }
 
+.interrogation-right {
+    height: 1fr;
+    min-height: 0;
+}
+#mode-s-tabs {
+    height: 1fr;
+    min-height: 0;
+}
+TabPane {
+    height: 1fr;
+    min-height: 0;
+}
+
+
+.mode-s-tab-scroll {
+    height: 1fr;
+    min-height: 0;
+    width: 100%;
+    overflow: auto;
+}
+
+.mode-s-grid {
+    layout: grid;
+    grid-size: 5 4;
+    grid-gutter: 1 0;
+    width: 100%;
+    height: auto;
+}
+.mode-s-grid-cell {
+    layout: vertical;
+    align-horizontal: center;
+    align-vertical: top;
+    padding: 0 1;
+}
+.mode-s-grid-cell > Label {
+    margin-bottom: 1;
+    text-align: left;
+}
 /* ===== Error Dialog ===== */
 ErrorDialog {
     width: 60;
